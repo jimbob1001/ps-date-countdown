@@ -16,6 +16,9 @@ defaultFriendlyName = ''
 numberOfDays = 0
 defaultIcon = "mdi:calendar-star"
 
+# Append Years to friendly name (Defaults to False)
+append_years = data.get('append_years' , False)
+
 # Convert the date we got
 dateStr = data.get('date')
 dateSplit = dateStr.split("/")
@@ -65,14 +68,23 @@ else:
 
     numberOfDays = (nextOccur - today).days
 
+# If append_years (append_years == true)
+if append_years:
 
 # Set the default friendly name
-if eventType.lower() == 'birthday':
-    # add an apostophe for birthdays
-    defaultFriendlyName = "{}'s {}".format(name , eventType)
-else:
-    defaultFriendlyName = "{} {}".format(name , eventType)
+    if eventType.lower() == 'birthday':
+        # add an apostophe for birthdays
+        defaultFriendlyName = "{}'s {} ({})".format(name , eventType, years)
+    else:
+        defaultFriendlyName = "{} {} ({})".format(name , eventType, years)
 
+else: 
+    # Set the default friendly name
+    if eventType.lower() == 'birthday':
+        # add an apostophe for birthdays
+        defaultFriendlyName = "{}'s {}".format(name , eventType)
+    else:
+        defaultFriendlyName = "{} {}".format(name , eventType)
 
 # Sanitise the entity_id to meet the criteria by
 # replacing Scandanavian characters and spaces
